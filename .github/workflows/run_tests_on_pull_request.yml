@@ -15,7 +15,7 @@ jobs:
       - name: Install Virtual Frame Buffer(xvfb)
         run: sudo apt-get install xvfb
       - name: Create Virtual Display
-        run: Xvfb :19 -screen 0 1024x768x16
+        run: Xvfb :19 -screen 0 1024x768x16 &
       - name: Tell Chromedriver to Use Virtual Display 1
         run: export DISPLAY=:19
       - name: Install Node Dependencies
