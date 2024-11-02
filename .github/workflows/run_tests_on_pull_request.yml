@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  build:
+  run_tests_on_pull_request:
     env:
       DISPLAY: ":0"
     runs-on: ubuntu-latest
@@ -14,25 +14,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install Virtual Frame Buffer(xvfb)
+      - name: Install Virtual Frame Buffer Package(xvfb)
         run: sudo apt-get install xvfb
-      - name: Create Virtual Display
+      - name: Create Virtual Display for Chromedriver to Use
         run: Xvfb :0 -screen 0 1024x768x16 &
-      - name: Tell Chromedriver to Use Virtual Display 0
-        run: echo $DISPLAY
       - name: Install Node Dependencies
         run: npm install
       - name: Create rebabel_convert executable
         shell: bash
         run: .github/scripts/create_rebabel_convert_executable
-      - name: Echo DISPLAY environment variable
-        run: echo $DISPLAY
       - name: Make
         run: npm run make
       - name: Test
         run: npm run test:local
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: logs
-          path: logs
