@@ -1,10 +1,8 @@
 name: Run Tests on Pull Request
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - main
-    types:
-      - opened
 jobs:
   run_tests_on_pull_request:
     env:
@@ -29,7 +27,7 @@ jobs:
       - name: Create rebabel_convert executable
         shell: bash
         run: .github/scripts/create_rebabel_convert_executable
-      - name: Make
+      - name: Create Rebabel executable
         run: npm run make
-      - name: Test
+      - name: Run Jasmine tests
         run: npm run test:local
