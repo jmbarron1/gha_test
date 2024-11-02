@@ -16,7 +16,7 @@ jobs:
           node-version: 22
       - name: Install Virtual Frame Buffer Package(xvfb)
         run: sudo apt-get install xvfb
-      - name: Create Virtual Display for Chromedriver to Use
+      - name: Create Virtual Display for ChromeDriver to Use
         run: Xvfb :0 -screen 0 1024x768x16 &
       - name: Install Node Dependencies
         run: npm install
