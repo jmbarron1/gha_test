@@ -25,7 +25,6 @@ jobs:
       - name: Install Node Dependencies
         run: npm install
       - name: Create rebabel_convert executable
-        shell: bash
         run: .github/scripts/create_rebabel_convert_executable
       - name: Create Rebabel executable
         run: npm run make

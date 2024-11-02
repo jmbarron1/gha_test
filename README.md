@@ -5,7 +5,7 @@
     - run `npm install` to install the Node packages reBabel depends on 
     - follow the instructions in **rebabel_scripts/README.md** to generate the rebabel_convert executable
     - alternatively, run `npm run rebabel_convert` to generate the rebabel_convert executable
-    - run `npm run start` to start the application in development mode 
+    - run `npm run start` to start the applicatio in development mode 
 
 # reBabel Distributable Installation 
 
