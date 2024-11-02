@@ -1,8 +1,9 @@
 import { browser } from '@wdio/globals'
 
-describe('Electron Testing', () => {
-    it('should print application title', async () => {
-        console.log('Hello', await browser.getTitle(), 'application!')
+describe('Rebabel Front End Testing', () => {
+    it('should have a convert button', async () => {
+        const elem = await $('#convertBtn')
+        await expect(elem).toExist()
     })
 })
 
