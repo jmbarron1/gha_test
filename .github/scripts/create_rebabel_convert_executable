@@ -28,7 +28,7 @@ echo '----------------------------------------------'
 echo 'Creating executable from rebabel_convert.py...'
 echo '----------------------------------------------'
 echo
-pyinstaller --onefile --collect-all rebabel_format rebabel_convert.py
+pyinstaller --onefile --collect-all ----log-level=WARN rebabel_format rebabel_convert.py --log-level WARN
 
 echo 
 echo '------------------------------------------'
