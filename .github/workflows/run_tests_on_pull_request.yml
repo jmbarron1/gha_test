@@ -2,7 +2,7 @@ name: Run Tests on Pull Request
 on:
   pull_request:
     branches:
-      - Feature/Run_tests_on_pull_request
+      - main
 jobs:
   run_tests_on_pull_request:
     env:
