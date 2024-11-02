@@ -5,6 +5,8 @@ on:
       - main
 jobs:
   build:
+    env:
+      DISPLAY: ":0"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
