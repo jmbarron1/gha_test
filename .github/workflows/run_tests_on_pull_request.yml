@@ -12,11 +12,14 @@ jobs:
       FORCE_COLOR: "true"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout 'main' Branch
         uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          ref: main
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
       - name: Install Virtual Frame Buffer Package(xvfb)
         run: sudo apt-get install xvfb
       - name: Create Virtual Display for ChromeDriver to Use
