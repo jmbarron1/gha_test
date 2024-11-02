@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: latest
-      - name: Install Virtual Frame Buffer Package(xvfb)
+      - name: anstall Virtual Frame Buffer Package(xvfb)
         run: sudo apt-get install xvfb
       - name: Create Virtual Display for ChromeDriver to Use
         run: Xvfb :0 -screen 0 1024x768x16 &
