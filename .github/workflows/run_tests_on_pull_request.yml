@@ -23,6 +23,8 @@ jobs:
       - name: Create rebabel_convert executable
         shell: bash
         run: .github/scripts/create_rebabel_convert_executable
+      - name: Echo DISPLAY environment variable
+        run: echo $DISPLAY
       - name: Make
         run: npm run make
       - name: Test
