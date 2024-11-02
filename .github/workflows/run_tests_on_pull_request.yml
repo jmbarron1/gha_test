@@ -17,7 +17,7 @@ jobs:
       - name: Create Virtual Display
         run: Xvfb :0 -screen 0 1024x768x16 &
       - name: Tell Chromedriver to Use Virtual Display 0
-        run: export DISPLAY=:0
+        run: export DISPLAY=:0; echo $DISPLAY
       - name: Install Node Dependencies
         run: npm install
       - name: Create rebabel_convert executable
