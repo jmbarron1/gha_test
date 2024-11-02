@@ -11,7 +11,8 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
     "rebabel_convert": "node rebabel_scripts/create_rebabel_convert.js",
-    "wdio": "wdio run ./wdio.conf.js"
+    "wdio": "wdio run ./wdio.conf.js",
+    "test:local": "wdio run ./wdio.conf_build_agent.js"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
