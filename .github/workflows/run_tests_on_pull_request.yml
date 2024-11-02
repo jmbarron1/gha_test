@@ -1,8 +1,10 @@
 name: Run Tests on Pull Request
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - main
+    types:
+      - opened
 jobs:
   run_tests_on_pull_request:
     env:
@@ -18,7 +20,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: latest
-      - name: anstall Virtual Frame Buffer Package(xvfb)
+      - name: Install Virtual Frame Buffer Package(xvfb)
         run: sudo apt-get install xvfb
       - name: Create Virtual Display for ChromeDriver to Use
         run: Xvfb :0 -screen 0 1024x768x16 &
