@@ -26,4 +26,4 @@ Write-Host "----------------------------------------------"
 Write-Host "Creating executable from rebabel_convert.py..."
 Write-Host "----------------------------------------------"
 Write-Host ""
-python -m PyInstaller --onefile --collect-all rebabel_format rebabel_convert.py
+python -m PyInstaller --onefile --collect-all rebabel_format rebabel_convert.py --log-level WARN
