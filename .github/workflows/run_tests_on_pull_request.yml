@@ -5,8 +5,6 @@ on:
       - main
 jobs:
   build:
-    env:
-      DISPLAY: ":0"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -14,7 +12,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Install
+      - name: Install Virtual Frame Buffer(xvfb)
+        run: sudo apt-get install xvfb
+      - name: Create Virtual Display
+        run: Xvfb :1 -screen 0 1024x768x24
+      - name: Tell Chromedriver to Use Virtual Display 1
+        run: export DISPLAY=:1
+      - name: Install Node Dependencies
         run: npm install
       - name: Create rebabel_convert executable
         shell: bash
