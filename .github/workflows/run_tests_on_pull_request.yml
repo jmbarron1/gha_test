@@ -61,7 +61,7 @@ jobs:
       - name: List files
         run: ls
       - name: Create Release
-        run: gh release create  -t "reBabel Release" frontendrebabel_1.0.0_amd64.deb
+        run: gh release create  -t "reBabel Release" v1.0.0 frontendrebabel_1.0.0_amd64.deb
       # - name: Upload reBabel executable
       #   uses: actions/upload-artifact@v4
       #   with:
