@@ -46,7 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run make
       - name: List Files
-        run: ls /home/runner/work/gha_test/gha_test/out/make
+        run: ls /home/runner/work/gha_test/gha_test/out/make/deb
   # build-reBabel-on-Windows:
   #   runs-on: windows-latest
   #   steps:
@@ -61,7 +61,7 @@ jobs:
   #     - name: Create rebabel_convert executable
   #       shell: pwsh
   #       run: .github/scripts/create_rebabel_convert_executable_windows.ps1
-      - name: Publish reBabel to GitHub releases
-        env:
+      # - name: Publish reBabel to GitHub releases
+      #   env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run publish
