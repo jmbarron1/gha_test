@@ -87,4 +87,4 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run make
       - name: List files
-        run: ls 
+        run: ls ./out/make
