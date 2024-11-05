@@ -47,6 +47,11 @@ jobs:
         run: npm run make
       - name: List files
         run: ls /home/runner/work/gha_test/gha_test/out/make/deb/x64
+      - name: Upload reBabel Linux
+        uses: actions/upload-artifact@v4
+        with:
+          name: reBabel_linux_amd64.deb
+          path: /home/runner/work/gha_test/gha_test/out/make/deb/x64/frontendrebabel_1.0.0_amd64.deb      
       # - name: Upload reBabel executable
       #   uses: actions/upload-artifact@v4
       #   with:
