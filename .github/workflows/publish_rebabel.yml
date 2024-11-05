@@ -6,27 +6,27 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-reBabel-on-Mac-OS:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-12, macos-latest]
-    steps:
-      - uses: actions/checkout@master
-        with:
-          ref: main
-      - uses: actions/setup-node@master
-        with:
-          node-version: "18"
-      - name: Install Node dependencies for reBabel
-        run: npm install
-      - name: Create rebabel_convert executable
-        shell: bash
-        run: .github/scripts/create_rebabel_convert_executable
-      - name: Publish reBabel to GitHub releases
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run publish
+  # build-reBabel-on-Mac-OS:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       os: [macos-12, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@master
+  #       with:
+  #         ref: main
+  #     - uses: actions/setup-node@master
+  #       with:
+  #         node-version: "18"
+  #     - name: Install Node dependencies for reBabel
+  #       run: npm install
+  #     - name: Create rebabel_convert executable
+  #       shell: bash
+  #       run: .github/scripts/create_rebabel_convert_executable
+  #     - name: Publish reBabel to GitHub releases
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: npm run publish
   build-reBabel-on-Linux:
     runs-on: ubuntu-latest
     steps:
@@ -44,21 +44,23 @@ jobs:
       - name: Publish reBabel to GitHub releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run publish
-  build-reBabel-on-Windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@master
-        with:
-          ref: main
-      - uses: actions/setup-node@master
-        with:
-          node-version: "18"
-      - name: Install Node dependencies for reBabel
-        run: npm install
-      - name: Create rebabel_convert executable
-        shell: pwsh
-        run: .github/scripts/create_rebabel_convert_executable_windows.ps1
+        run: npm run make
+      - name: List Files
+        run: ls /Users/runner/work/gha_test/gha_test/out/make
+  # build-reBabel-on-Windows:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #       with:
+  #         ref: main
+  #     - uses: actions/setup-node@master
+  #       with:
+  #         node-version: "18"
+  #     - name: Install Node dependencies for reBabel
+  #       run: npm install
+  #     - name: Create rebabel_convert executable
+  #       shell: pwsh
+  #       run: .github/scripts/create_rebabel_convert_executable_windows.ps1
       - name: Publish reBabel to GitHub releases
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
