@@ -46,7 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run make
       - name: List Files
-        run: ls /Users/runner/work/gha_test/gha_test/out/make
+        run: ls /home/runner/work/gha_test/gha_test/out/make
   # build-reBabel-on-Windows:
   #   runs-on: windows-latest
   #   steps:
