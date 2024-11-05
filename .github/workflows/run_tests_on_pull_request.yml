@@ -1,32 +1,73 @@
-name: Run Tests on Pull Request
+name: Publish reBabel
 on:
-  pull_request:
+  push:
     branches:
       - main
+  workflow_dispatch:
+
 jobs:
-  run_tests_on_pull_request:
-    env:
-      FORCE_COLOR: "true"
-      DISPLAY: ":0"
+  # build-reBabel-on-Mac-OS:
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       os: [macos-12, macos-latest]
+  #   steps:
+  #     - uses: actions/checkout@master
+  #       with:
+  #         ref: main
+  #     - uses: actions/setup-node@master
+  #       with:
+  #         node-version: "18"
+  #     - name: Install Node dependencies for reBabel
+  #       run: npm install
+  #     - name: Create rebabel_convert executable
+  #       shell: bash
+  #       run: .github/scripts/create_rebabel_convert_executable
+  #     - name: Publish reBabel to GitHub releases
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: npm run publish
+  build-reBabel-on-Linux:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 'main' Branch
-        uses: actions/checkout@v4
+      - uses: actions/checkout@master
         with:
-          ref: ${{github.event.pull_request.head.ref}}
-      - name: Setup Node.js Environment
-        uses: actions/setup-node@v4
+          ref: main
+      - uses: actions/setup-node@master
         with:
-          node-version: latest
-      - name: Install Virtual Frame Buffer Package(xvfb)
-        run: sudo apt-get install xvfb
-      - name: Create Virtual Display for ChromeDriver to Use
-        run: Xvfb :0 -screen 0 1024x768x16 &
-      - name: Install Node Dependencies
+          node-version: "18"
+      - name: Install Node dependencies for reBabel
         run: npm install
-      - name: Create rebabel_convert Executable Using PyInstaller
+      - name: Create rebabel_convert executable
+        shell: bash
         run: .github/scripts/create_rebabel_convert_executable
-      - name: Create Rebabel executable
+      - name: Produce reBabel executable reBabel to GitHub releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run make
-      - name: Run Jasmine tests
-        run: npm run test:local
+      - name: List files
+        run: ls /Users/runner/work/gha_test/gha_test/out/make/
+      # - name: Upload reBabel executable
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: reBabel_linux
+      #     path: |
+      #       /Users/runner/work/gha_test/gha_test/out/make/
+  # build-reBabel-on-Windows:
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #       with:
+  #         ref: main
+  #     - uses: actions/setup-node@master
+  #       with:
+  #         node-version: "18"
+  #     - name: Install Node dependencies for reBabel
+  #       run: npm install
+  #     - name: Create rebabel_convert executable
+  #       shell: pwsh
+  #       run: .github/scripts/create_rebabel_convert_executable_windows.ps1
+  #     - name: Publish reBabel to GitHub releases
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       run: npm run publish
