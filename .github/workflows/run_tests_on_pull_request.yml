@@ -80,6 +80,7 @@ jobs:
           name: reBabel_windows
           path: D:\a\gha_test\gha_test\out\make\squirrel.windows\x64\frontendrebabel-1.0.0 Setup.exe
   create-reBabel-release:
+    needs: [build-reBabel-on-Linux, build-reBabel-on-Windows]
     runs-on: ubuntu-latest
     steps:
       - name: Download Linux artifact
