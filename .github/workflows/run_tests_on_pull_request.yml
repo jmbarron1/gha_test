@@ -82,6 +82,8 @@ jobs:
   create-reBabel-release:
     needs: [build-reBabel-on-Linux, build-reBabel-on-Windows]
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Download Linux artifact
         uses: actions/download-artifact@v4
