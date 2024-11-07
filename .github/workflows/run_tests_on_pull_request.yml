@@ -88,6 +88,12 @@ jobs:
       - uses: actions/checkout@master
         with:
           ref: main
+      - uses: actions/setup-node@master
+        with:
+          node-version: "18"
+      - name: get release version
+        env: 
+          VERSION: $(npm version prerelease --preid=alpha)
       - name: Download Linux artifact
         uses: actions/download-artifact@v4
         with:
@@ -105,4 +111,4 @@ jobs:
       - name: List files
         run: ls
       - name: Create Release
-        run: gh release create v1.0.0-alpha --generate-notes=false -pt  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
+        run: gh release create -t $VERSION --generate-notes=false -pt  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
