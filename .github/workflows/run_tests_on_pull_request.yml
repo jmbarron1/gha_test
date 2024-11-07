@@ -99,4 +99,4 @@ jobs:
       - name: List files
         run: ls
       - name: Create Release
-        run: gh release create  -t "reBabel Release" ./frontendrebabel_1.0.0_amd64.deb
+        run: gh release create v1.0.0-alpha -t "reBabel Release" ./frontendrebabel_1.0.0_amd64.deb
