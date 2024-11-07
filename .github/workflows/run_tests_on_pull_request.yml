@@ -101,4 +101,4 @@ jobs:
       - name: Create Release
         run: gh release create v1.0.0-alpha -t "reBabel Release" ./frontendrebabel*
       - name: Delete source code
-        run: gh release delete-asset v1.0.0-alpha "Source code*"
+        run: gh release delete-asset v1.0.0-alpha "Source code"
