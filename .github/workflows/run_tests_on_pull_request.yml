@@ -97,8 +97,6 @@ jobs:
         with:
           name: reBabel_windows
       - name: List files
-        run: ls
+        run: mv frontendrebabel_1.0.0_amd64.deb rebabel_linux.deb; mv frontendrebabel-1.0.0.Setup.exe rebabel_windows.Setup.exe
       - name: Create Release
-        run: gh release create v1.0.0-alpha -t "reBabel Release" ./frontendrebabel*
-      - name: Delete source code
-        run: gh release delete-asset v1.0.0-alpha "Source code"
+        run: gh release create v1.0.0-alpha -pt "reBabel Release" ./rebabel_*
