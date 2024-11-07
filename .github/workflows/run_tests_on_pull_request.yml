@@ -107,7 +107,7 @@ jobs:
       - name: Rename more files
         run: mv "./frontendrebabel-1.0.0 Setup.exe" "./rebabel_windows.Setup.exe"
       - name: List files
-      - run: ls
-      - run: git config --global user.name 'AboutBits Tech'
-      - run: git config --global user.email 'tech@aboutbits.it'
-      - run: export VERSION=$(npm version prerelease --preid=alpha); gh release create -t $VERSION --generate-notes=false -pt  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
+        run: ls
+        run: git config --global user.name 'AboutBits Tech'
+        run: git config --global user.email 'tech@aboutbits.it'
+        run: export VERSION=$(npm version prerelease --preid=alpha); gh release create -t $VERSION --generate-notes=false -pt  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
