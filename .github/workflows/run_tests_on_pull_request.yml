@@ -96,4 +96,4 @@ jobs:
       - name: List files
         run: ls
       - name: Create GitHub release
-        run: gh release create v1.0.0-alpha --draft --title "reBabel Release" frontendrebabel_1.0.0_amd64.deb frontendrebabel-1.0.0 Setup.exe 
+        run: gh release create v1.0.0-alpha --draft --title "reBabel Release" frontendrebabel*
