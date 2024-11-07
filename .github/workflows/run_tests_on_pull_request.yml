@@ -105,4 +105,4 @@ jobs:
       - name: List files
         run: ls
       - name: Create Release
-        run: gh release create v1.0.0-alpha -pt "reBabel Release" ./rebabel_*
+        run: gh release create v1.0.0-alpha -pt "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
