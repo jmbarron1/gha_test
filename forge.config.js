@@ -4,6 +4,7 @@ const isWindows = process.platform === 'win32';
 
 module.exports = {
   packagerConfig: {
+    name: 'reBabel',
     asar: true,
     extraResource: [isWindows ? "./rebabel_scripts/dist/rebabel_convert.exe" : "./rebabel_scripts/dist/rebabel_convert"]
   },
