@@ -53,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_linux_amd64.deb
-          path: /home/runner/work/gha_test/gha_test/out/make/deb/x64/frontendrebabel_1.0.0_amd64.deb 
+          path: "${{env.GITHUB_WORKSPACE}}/out/make/deb/x64/frontendrebabel_1.0.0_amd64.deb"
   build-reBabel-on-Windows:
     runs-on: windows-latest
     steps:
@@ -78,7 +78,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_windows
-          path: D:\a\gha_test\gha_test\out\make\squirrel.windows\x64\frontendrebabel-1.0.0 Setup.exe
+          path: "${{env.GITHUB_WORKSPACE}}\out\make\squirrel.windows\x64\frontendrebabel-1.0.0 Setup.exe"
   create-reBabel-release:
     needs: [build-reBabel-on-Linux, build-reBabel-on-Windows]
     runs-on: ubuntu-latest
@@ -115,4 +115,4 @@ jobs:
           export VERSION=$(npm version prerelease --preid=alpha)
           echo $VERSION
           printenv
-          gh release create -t "${{env.VERSION}}" -p  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
+          gh release create "${{env.VERSION}}" -pt  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
