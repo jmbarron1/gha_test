@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_linux_amd64.deb
-          path: /home/runner/work/gha_test/gha_test/out/make/deb/x64/frontendrebabel_1.0.0_amd64.deb
+          path: /home/runner/work/gha_test/gha_test/out/make/deb/x64/rebabel*
   build-reBabel-on-Windows:
     runs-on: windows-latest
     steps:
@@ -79,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_windows
-          path: D:\a\gha_test\gha_test\out\make\squirrel.windows\x64\frontendrebabel-1.0.0 Setup.exe
+          path: D:\a\gha_test\gha_test\out\make\squirrel.windows\x64\rebabel*
   create-reBabel-release:
     needs: [build-reBabel-on-Linux, build-reBabel-on-Windows]
     runs-on: ubuntu-latest
