@@ -115,8 +115,8 @@ jobs:
           export VERSION=$(npm version prerelease --preid=alpha)
           echo $VERSION
           printenv
-          git push && git push --tags && rm -rf build/temp
-          gh release create $VERSION -pt  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
-          git status
           ls
           git push && git push --tags && rm -rf build/temp
+          gh release create $VERSION -pt  "reBabel Release" --notes "" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
+          git status
+          ls
