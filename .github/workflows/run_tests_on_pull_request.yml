@@ -78,7 +78,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_windows
-          path: "${{env.GITHUB_WORKSPACE}}\out\make\squirrel.windows\x64\frontendrebabel-1.0.0 Setup.exe"
+          path: "${{env.GITHUB_WORKSPACE}}/out/make/squirrel.windows/x64/frontendrebabel-1.0.0 Setup.exe"
   create-reBabel-release:
     needs: [build-reBabel-on-Linux, build-reBabel-on-Windows]
     runs-on: ubuntu-latest
