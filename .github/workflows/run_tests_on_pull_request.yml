@@ -54,7 +54,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_linux_amd64.deb
-          path: /home/runner/work/gha_test/gha_test/out/make/deb/x64/rebabel*
+          path: /home/runner/work/gha_test/gha_test/out/make/deb/x64/rebabel*.deb
   build-reBabel-on-Windows:
     runs-on: windows-latest
     steps:
@@ -79,7 +79,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_windows
-          path: D:\a\gha_test\gha_test\out\make\squirrel.windows\x64\rebabel*
+          path: D:\a\gha_test\gha_test\out\make\squirrel.windows\x64\rebabel*Setup.exe
   create-reBabel-release:
     needs: [build-reBabel-on-Linux, build-reBabel-on-Windows]
     runs-on: ubuntu-latest
@@ -104,9 +104,9 @@ jobs:
       - name: List files
         run: ls
       - name: Rename files
-        run: mv ./frontendrebabel_1.0.0_amd64.deb ./rebabel_linux.deb
+        run: mv ./rebabel*.deb ./rebabel_linux.deb
       - name: Rename more files
-        run: mv "./frontendrebabel-1.0.0 Setup.exe" "./rebabel_windows.Setup.exe"
+        run: mv "./rebabel*Setup.exe" "./rebabel_windows.Setup.exe"
       - name: List files
         run: ls
       - name: Setup Git Credentials
