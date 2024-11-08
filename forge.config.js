@@ -4,8 +4,8 @@ const isWindows = process.platform === 'win32';
 
 module.exports = {
   packagerConfig: {
-    name: 'reBabel',
-    executableName: 'reBabel',
+    name: 'rebabel',
+    executableName: 'rebabel',
     asar: true,
     extraResource: [isWindows ? "./rebabel_scripts/dist/rebabel_convert.exe" : "./rebabel_scripts/dist/rebabel_convert"]
   },
@@ -13,20 +13,19 @@ module.exports = {
   makers: [
     {
       platforms: ['darwin'],
-      executableName: 'reBabel',
       name: '@electron-forge/maker-zip'
     },
     {
       name: '@electron-forge/maker-squirrel',
-      executableName: 'reBabel',
       config: {}
     },
     {
       platforms: ['linux'],
-      executableName: 'reBabel',
       name: '@electron-forge/maker-deb',
       config: {
-        options: {}
+        options: {
+          name: 'rebabel'
+        }
       }
     }
   ],
