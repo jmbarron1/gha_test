@@ -13,14 +13,17 @@ module.exports = {
   makers: [
     {
       platforms: ['darwin'],
+      executableName: 'reBabel',
       name: '@electron-forge/maker-zip'
     },
     {
       name: '@electron-forge/maker-squirrel',
+      executableName: 'reBabel',
       config: {}
     },
     {
       platforms: ['linux'],
+      executableName: 'reBabel',
       name: '@electron-forge/maker-deb',
       config: {
         options: {}
