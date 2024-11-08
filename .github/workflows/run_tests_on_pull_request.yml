@@ -106,7 +106,7 @@ jobs:
       - name: Rename files
         run: mv ./rebabel*.deb ./rebabel_linux.deb
       - name: Rename more files
-        run: mv "./rebabel*Setup.exe" "./rebabel_windows.Setup.exe"
+        run: mv "./rebabel*.exe" "./rebabel_windows.Setup.exe"
       - name: List files
         run: ls
       - name: Setup Git Credentials
