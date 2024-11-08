@@ -111,4 +111,7 @@ jobs:
       - name: Setup Git Credentials
         uses: fregante/setup-git-user@v2
       - name: Create npm version tag
-        run: export VERSION=$(npm version prerelease --preid=alpha); gh release create -t $VERSION --generate-notes=false -pt  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
+        run: |
+          export VERSION=$(npm version prerelease --preid=alpha)
+          echo $VERSION
+          gh release create -t $VERSION --generate-notes=false -pt  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
