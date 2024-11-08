@@ -114,4 +114,5 @@ jobs:
         run: |
           export VERSION=$(npm version prerelease --preid=alpha)
           echo $VERSION
-          gh release create -t "${{ env.VERSION}}" -notes "" -p  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
+          printenv
+          gh release create -t "${{env.VERSION}}" -p  "reBabel Release" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
