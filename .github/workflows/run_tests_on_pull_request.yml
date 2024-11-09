@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_linux_amd64.deb
-          path: $GITHUB_WORKSPACE/out/make/deb/x64/*.deb
+          path: $GITHUB_WORKSPACE/out/make/deb/x64/rebabel*.deb
   build-reBabel-on-Windows:
     runs-on: windows-latest
     steps:
@@ -68,7 +68,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_windows
-          path: $GITHUB_WORKSPACE\out\make\squirrel.windows\x64\*.exe
+          path: $GITHUB_WORKSPACE\out\make\squirrel.windows\x64\rebabel*.exe
   create-reBabel-release:
     needs: [build-reBabel-on-Linux, build-reBabel-on-Windows, increment-reBabel-version]
     runs-on: ubuntu-latest
@@ -95,4 +95,4 @@ jobs:
           GH_TOKEN: ${{github.token}}
         run: |
           echo $VERSION
-          gh release create $VERSION -pt  "reBabel Release" --notes "" ./rebabel*.exe ./rebabel*.deb
+          gh release create $VERSION -pt  "reBabel Release" --notes ./rebabel*.exe ./rebabel*.deb
