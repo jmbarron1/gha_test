@@ -121,4 +121,4 @@ jobs:
           VERSION: ${{needs.increment-reBabel-version.outputs.output1}}
           GH_TOKEN: ${{github.token}}
         run: |
-          gh release create $VERSION -pt  "reBabel" --notes "$VERSION" ./rebabel*.deb 
+          gh release create $VERSION -pt  "reBabel" --notes " " ./rebabel*.deb 
