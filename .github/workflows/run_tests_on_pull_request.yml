@@ -41,18 +41,11 @@ jobs:
         run: .github/scripts/create_rebabel_convert_executable
       - name: Produce reBabel executable reBabel to GitHub releases
         run: npm run make
-      - name: Upload reBabel Mac ARM64 Artifact
-        if: ${{matrix.os}} == 'macos-latest'
+      - name: Upload reBabel Mac Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: reBabel_mac_arm64
-          path: ${{ github.workspace }}/out/make/zip/darwin/arm64/rebabel*.zip
-      - name: Upload reBabel Mac x64 Artifact
-        if: ${{matrix.os}} == 'macos-13'
-        uses: actions/upload-artifact@v4
-        with:
-          name: reBabel_mac_x64
-          path: ${{ github.workspace }}/out/make/zip/darwin/x64/rebabel*.zip
+          name: reBabel_mac_${{ matrix.os == 'macos-latest' && 'arm64' || 'x64' }}
+          path: ${{ github.workspace }}/out/make/zip/darwin/*/rebabel*.zip
   build-reBabel-on-Linux:
     runs-on: ubuntu-latest
     steps:
