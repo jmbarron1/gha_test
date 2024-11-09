@@ -22,7 +22,7 @@ jobs:
       - id: step4
         name: Store reBabel_version as Job Output
         run: |
-          echo "reBabel_version=$(npm version prerelease --preid=alpha)" >> "$GITHUB_OUTPUT"
+          echo "reBabel_version=$(npm version preminor --preid=alpha)" >> "$GITHUB_OUTPUT"
           git push && git push --tags
   build-reBabel-on-Mac:
     needs: increment-reBabel-version
