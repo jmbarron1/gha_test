@@ -39,7 +39,7 @@ jobs:
       - name: Produce reBabel executable reBabel to GitHub releases
         run: npm run make
       - name: List files
-        run: ls ./out/make
+        run: ls ./out/make/zip/darwin
       - name: Upload reBabel Mac
         uses: actions/upload-artifact@v4
         with:
