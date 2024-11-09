@@ -40,7 +40,7 @@ jobs:
       - name: Produce reBabel executable reBabel to GitHub releases
         run: npm run make
       - name: List files
-        run: ls /home/runner/work/gha_test/gha_test/out/make/deb/x64
+        run: ls $GITHUB_WORKSPACE/out/make/deb/x64
       - name: Upload reBabel Linux
         uses: actions/upload-artifact@v4
         with:
