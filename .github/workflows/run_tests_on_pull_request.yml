@@ -22,9 +22,7 @@ jobs:
       - id: step4
         run: |
           echo "reBabel_version=$(npm version prerelease --preid=alpha)" >> "$GITHUB_OUTPUT"
-          git status
-          ls -la
-          git push && git push --tags && rm -rf build/temp
+          git push && git push --tags
   build-reBabel-on-Linux:
     runs-on: ubuntu-latest
     steps:
@@ -91,16 +89,10 @@ jobs:
           name: reBabel_windows
       - name: List files
         run: ls
-      - name: Rename files
-        run: mv ./rebabel*.deb ./rebabel_linux.deb
-      - name: Rename more files
-        run: mv ./*.exe ./rebabel_windows.Setup.exe
-      - name: List files
-        run: ls
       - name: Create release
         env:
           VERSION: ${{needs.increment-reBabel-version.outputs.output1}}
           GH_TOKEN: ${{ github.token }}
         run: |
           echo $VERSION
-          gh release create $VERSION -pt  "reBabel Release" --notes "" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
+          gh release create $VERSION -pt  "reBabel Release" --notes "" ./rebabel*.exe ./rebabel*.deb
