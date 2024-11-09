@@ -43,7 +43,10 @@ jobs:
         run: npm run make
       - name: Build and upload artifact
         if: ${{matrix.os}} == 'macos-latest'
-        run: echo "hello world"
+        uses: actions/upload-artifact@v4
+        with:
+          name: reBabel_mac_arm64
+          path: ${{ github.workspace }}/out/make/zip/darwin/arm64/rebabel*.zip
   build-reBabel-on-Linux:
     runs-on: ubuntu-latest
     steps:
