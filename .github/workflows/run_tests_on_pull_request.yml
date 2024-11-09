@@ -23,30 +23,30 @@ jobs:
         run: |
           echo "reBabel_version=$(npm version prerelease --preid=alpha)" >> "$GITHUB_OUTPUT"
           git push && git push --tags
-  build-reBabel-on-Mac:
-    needs: increment-reBabel-version
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest, macos-13]
-    steps:
-      - uses: actions/checkout@master
-        with:
-          ref: main
-      - uses: actions/setup-node@master
-        with:
-          node-version: "latest"
-      - name: Install Node dependencies for reBabel
-        run: npm install
-      - name: Create rebabel_convert executable
-        run: .github/scripts/create_rebabel_convert_executable
-      - name: Produce reBabel executable reBabel to GitHub releases
-        run: npm run make
-      - name: Upload reBabel Mac Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: reBabel_mac_${{ matrix.os == 'macos-latest' && 'arm64' || 'x64' }}
-          path: ${{ github.workspace }}/out/make/zip/darwin/${{ matrix.os == 'macos-latest' && 'arm64' || 'x64' }}/rebabel*.zip
+  # build-reBabel-on-Mac:
+  #   needs: increment-reBabel-version
+  #   runs-on: ${{ matrix.os }}
+  #   strategy:
+  #     matrix:
+  #       os: [macos-latest, macos-13]
+  #   steps:
+  #     - uses: actions/checkout@master
+  #       with:
+  #         ref: main
+  #     - uses: actions/setup-node@master
+  #       with:
+  #         node-version: "latest"
+  #     - name: Install Node dependencies for reBabel
+  #       run: npm install
+  #     - name: Create rebabel_convert Executable Using PyInstaller
+  #       run: .github/scripts/create_rebabel_convert_executable
+  #     - name: Create reBabel Electron Executable
+  #       run: npm run make
+  #     - name: Upload reBabel Mac Artifact
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: reBabel_mac_${{ matrix.os == 'macos-latest' && 'arm64' || 'x64' }}
+  #         path: ${{ github.workspace }}/out/make/zip/darwin/${{ matrix.os == 'macos-latest' && 'arm64' || 'x64' }}/rebabel*.zip
   build-reBabel-on-Linux:
     needs: increment-reBabel-version
     runs-on: ubuntu-latest
@@ -59,37 +59,37 @@ jobs:
           node-version: "latest"
       - name: Install Node dependencies for reBabel
         run: npm install
-      - name: Create rebabel_convert executable
+      - name: Create rebabel_convert Executable Using PyInstaller
         run: .github/scripts/create_rebabel_convert_executable
-      - name: Produce reBabel executable reBabel to GitHub releases
+      - name: Create reBabel Electron Executable
         run: npm run make
       - name: Upload reBabel Linux Artifact
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_linux
           path: ${{ github.workspace }}/out/make/deb/x64/rebabel*.deb
-  build-reBabel-on-Windows:
-    needs: increment-reBabel-version
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@master
-        with:
-          ref: main
-      - uses: actions/setup-node@master
-        with:
-          node-version: "latest"
-      - name: Install Node dependencies for reBabel
-        run: npm install
-      - name: Create rebabel_convert executable
-        shell: pwsh
-        run: .github/scripts/create_rebabel_convert_executable_windows.ps1
-      - name: Create reBabel executable
-        run: npm run make
-      - name: Upload reBabel Windows Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: reBabel_windows
-          path: ${{ github.workspace }}\out\make\squirrel.windows\x64\rebabel*.exe
+  # build-reBabel-on-Windows:
+  #   needs: increment-reBabel-version
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@master
+  #       with:
+  #         ref: main
+  #     - uses: actions/setup-node@master
+  #       with:
+  #         node-version: "latest"
+  #     - name: Install Node Dependencies for reBabel
+  #       run: npm install
+  #     - name: Create rebabel_convert Executable Using PyInstaller
+  #       shell: pwsh
+  #       run: .github/scripts/create_rebabel_convert_executable_windows.ps1
+  #     - name: Create reBabel Electron Executable
+  #       run: npm run make
+  #     - name: Upload reBabel Windows Artifact
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: reBabel_windows
+  #         path: ${{ github.workspace }}\out\make\squirrel.windows\x64\rebabel*.exe
   create-reBabel-release:
     needs: [build-reBabel-on-Linux, build-reBabel-on-Windows, build-reBabel-on-Mac, increment-reBabel-version]
     runs-on: ubuntu-latest
@@ -100,26 +100,25 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: "latest"
-      - name: Download Mac x64 Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: reBabel_mac_x64
-      - name: Download Mac ARM64 Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: reBabel_mac_arm64
+      # - name: Download Mac x64 Artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: reBabel_mac_x64
+      # - name: Download Mac ARM64 Artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: reBabel_mac_arm64
       - name: Download Linux Artifact
         uses: actions/download-artifact@v4
         with:
           name: reBabel_linux
-      - name: Download Windows Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: reBabel_windows
-      - name: Create release
+      # - name: Download Windows Artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: reBabel_windows
+      - name: Create GitHub Release
         env:
           VERSION: ${{needs.increment-reBabel-version.outputs.output1}}
           GH_TOKEN: ${{github.token}}
         run: |
-          ls
-          gh release create $VERSION -pt  "reBabel" ./rebabel*.exe ./rebabel*.deb ./rebabel*.zip
+          gh release create $VERSION -pt  "reBabel" --notes My Notes ./rebabel*.deb 
