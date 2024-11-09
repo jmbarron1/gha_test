@@ -117,4 +117,6 @@ jobs:
         env:
           VERSION: ${{needs.increment-reBabel-version.outputs.output1}}
           GH_TOKEN: ${{github.token}}
-        run: gh release create $VERSION -pt  "reBabel" ./rebabel*.exe ./rebabel*.deb ./rebabel*.zip
+        run: |
+          ls
+          gh release create $VERSION -pt  "reBabel" ./rebabel*.exe ./rebabel*.deb ./rebabel*.zip
