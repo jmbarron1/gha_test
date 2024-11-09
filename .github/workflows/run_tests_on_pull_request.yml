@@ -16,13 +16,33 @@ jobs:
           ref: main
       - uses: actions/setup-node@master
         with:
-          node-version: "18"
+          node-version: "latest"
       - name: Setup Git Credentials
         uses: fregante/setup-git-user@v2
       - id: step4
         run: |
           echo "reBabel_version=$(npm version prerelease --preid=alpha)" >> "$GITHUB_OUTPUT"
           git push && git push --tags
+  build-reBabel-on-Mac:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          ref: main
+      - uses: actions/setup-node@master
+        with:
+          node-version: "latest"
+      - name: Install Node dependencies for reBabel
+        run: npm install
+      - name: Create rebabel_convert executable
+        run: .github/scripts/create_rebabel_convert_executable
+      - name: Produce reBabel executable reBabel to GitHub releases
+        run: npm run make
+      - name: Upload reBabel Mac
+        uses: actions/upload-artifact@v4
+        with:
+          name: reBabel_mac
+          path: ${{ github.workspace }}/out/make/zip/darwin/x64/rebabel*.zip
   build-reBabel-on-Linux:
     runs-on: ubuntu-latest
     steps:
@@ -31,20 +51,17 @@ jobs:
           ref: main
       - uses: actions/setup-node@master
         with:
-          node-version: "18"
+          node-version: "latest"
       - name: Install Node dependencies for reBabel
         run: npm install
       - name: Create rebabel_convert executable
-        shell: bash
         run: .github/scripts/create_rebabel_convert_executable
       - name: Produce reBabel executable reBabel to GitHub releases
         run: npm run make
-      - name: List files
-        run: ls $GITHUB_WORKSPACE/out/make/deb/x64
       - name: Upload reBabel Linux
         uses: actions/upload-artifact@v4
         with:
-          name: reBabel_linux_amd64.deb
+          name: reBabel_linux
           path: ${{ github.workspace }}/out/make/deb/x64/rebabel*.deb
   build-reBabel-on-Windows:
     runs-on: windows-latest
@@ -54,7 +71,7 @@ jobs:
           ref: main
       - uses: actions/setup-node@master
         with:
-          node-version: "18"
+          node-version: "latest"
       - name: Install Node dependencies for reBabel
         run: npm install
       - name: Create rebabel_convert executable
@@ -62,15 +79,13 @@ jobs:
         run: .github/scripts/create_rebabel_convert_executable_windows.ps1
       - name: Create reBabel executable
         run: npm run make
-      - name: List files
-        run: ls ./out/make/squirrel.windows/x64
       - name: Upload reBabel Windows
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_windows
           path: ${{ github.workspace }}\out\make\squirrel.windows\x64\rebabel*.exe
   create-reBabel-release:
-    needs: [build-reBabel-on-Linux, build-reBabel-on-Windows, increment-reBabel-version]
+    needs: [build-reBabel-on-Linux, build-reBabel-on-Windows, build-reBabel-on-Mac, increment-reBabel-version]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -78,21 +93,21 @@ jobs:
           ref: main
       - uses: actions/setup-node@master
         with:
-          node-version: "18"
+          node-version: "latest"
+      - name: Download Mac artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: reBabel_mac
       - name: Download Linux artifact
         uses: actions/download-artifact@v4
         with:
-          name: reBabel_linux_amd64.deb
+          name: reBabel_linux
       - name: Download Windows artifact
         uses: actions/download-artifact@v4
         with:
           name: reBabel_windows
-      - name: List files
-        run: ls
       - name: Create release
         env:
           VERSION: ${{needs.increment-reBabel-version.outputs.output1}}
           GH_TOKEN: ${{github.token}}
-        run: |
-          echo $VERSION
-          gh release create $VERSION -pt  "reBabel Release" --notes ./rebabel*.exe ./rebabel*.deb
+        run: gh release create $VERSION -pt  "reBabel" ./rebabel*.exe ./rebabel*.deb ./rebabel*.zip
