@@ -38,6 +38,8 @@ jobs:
         run: .github/scripts/create_rebabel_convert_executable
       - name: Produce reBabel executable reBabel to GitHub releases
         run: npm run make
+      - name: List files
+        run: ls 
       - name: Upload reBabel Mac
         uses: actions/upload-artifact@v4
         with:
