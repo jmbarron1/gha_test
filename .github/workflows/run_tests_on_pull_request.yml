@@ -24,6 +24,7 @@ jobs:
           echo "reBabel_version=$(npm version prerelease --preid=alpha)" >> "$GITHUB_OUTPUT"
           git push && git push --tags
   build-reBabel-on-Mac:
+    needs: increment-reBabel-version
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -45,8 +46,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_mac_${{ matrix.os == 'macos-latest' && 'arm64' || 'x64' }}
-          path: ${{ github.workspace }}/out/make/zip/darwin/*/rebabel*.zip
+          path: ${{ github.workspace }}/out/make/zip/darwin/${{ matrix.os == 'macos-latest' && 'arm64' || 'x64' }}/rebabel*.zip
   build-reBabel-on-Linux:
+    needs: increment-reBabel-version
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
@@ -67,6 +69,7 @@ jobs:
           name: reBabel_linux
           path: ${{ github.workspace }}/out/make/deb/x64/rebabel*.deb
   build-reBabel-on-Windows:
+    needs: increment-reBabel-version
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@master
