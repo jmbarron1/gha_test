@@ -6,36 +6,31 @@ on:
   workflow_dispatch:
 
 jobs:
-  # build-reBabel-on-Mac-OS:
-  #   runs-on: ${{ matrix.os }}
-  #   strategy:
-  #     matrix:
-  #       os: [macos-12, macos-latest]
-  #   steps:
-  #     - uses: actions/checkout@master
-  #       with:
-  #         ref: main
-  #     - uses: actions/setup-node@master
-  #       with:
-  #         node-version: "18"
-  #     - name: Install Node dependencies for reBabel
-  #       run: npm install
-  #     - name: Create rebabel_convert executable
-  #       shell: bash
-  #       run: .github/scripts/create_rebabel_convert_executable
-  #     - name: Publish reBabel to GitHub releases
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #       run: npm run publish
-  build-reBabel-on-Linux:
+  increment-reBabel-version:
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ github.token }}
+    outputs: 
+      output1: ${{steps.step4.outputs.reBabel_version}}
     steps:
       - uses: actions/checkout@master
         with:
           ref: main
-          clean: true
+      - uses: actions/setup-node@master
+        with:
+          node-version: "18"
+      - name: Setup Git Credentials
+        uses: fregante/setup-git-user@v2
+      - id: step4
+        run: |
+          npm version prerelease --preid=alpha >> "$GITHUB_OUTPUT"
+          git status
+          ls
+          git push && git push --tags && rm -rf build/temp
+  build-reBabel-on-Linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          ref: main
       - uses: actions/setup-node@master
         with:
           node-version: "18"
@@ -45,8 +40,6 @@ jobs:
         shell: bash
         run: .github/scripts/create_rebabel_convert_executable
       - name: Produce reBabel executable reBabel to GitHub releases
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run make
       - name: List files
         run: ls /home/runner/work/gha_test/gha_test/out/make/deb/x64
@@ -70,8 +63,6 @@ jobs:
         shell: pwsh
         run: .github/scripts/create_rebabel_convert_executable_windows.ps1
       - name: Create reBabel executable
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run make
       - name: List files
         run: ls ./out/make/squirrel.windows/x64
@@ -81,15 +72,12 @@ jobs:
           name: reBabel_windows
           path: D:\a\gha_test\gha_test\out\make\squirrel.windows\x64\rebabel*Setup.exe
   create-reBabel-release:
-    needs: [build-reBabel-on-Linux, build-reBabel-on-Windows]
+    needs: [build-reBabel-on-Linux, build-reBabel-on-Windows, increment-reBabel-version]
     runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@master
         with:
           ref: main
-          token: ${{ github.token }}
       - uses: actions/setup-node@master
         with:
           node-version: "18"
@@ -109,15 +97,9 @@ jobs:
         run: mv ./*.exe ./rebabel_windows.Setup.exe
       - name: List files
         run: ls
-      - name: Setup Git Credentials
-        uses: fregante/setup-git-user@v2
-      - name: Create npm version tag
+      - name: Create release
+        env:
+          VERSION: ${{needs.increment-reBabel-version.outputs.output1}}
         run: |
-          export VERSION=$(npm version prerelease --preid=alpha)
           echo $VERSION
-          printenv
-          ls
-          git push && git push --tags && rm -rf build/temp
           gh release create $VERSION -pt  "reBabel Release" --notes "" ./rebabel_windows.Setup.exe ./rebabel_linux.deb
-          git status
-          ls
