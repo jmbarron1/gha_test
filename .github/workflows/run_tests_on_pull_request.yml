@@ -39,12 +39,12 @@ jobs:
       - name: Produce reBabel executable reBabel to GitHub releases
         run: npm run make
       - name: List files
-        run: ls ./out/make/zip/darwin
+        run: ls ./out/make/zip/darwin/arm64
       - name: Upload reBabel Mac
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_mac
-          path: ${{ github.workspace }}/out/make/zip/darwin/x64/rebabel*.zip
+          path: ${{ github.workspace }}/out/make/zip/darwin/arm64/rebabel*.zip
   build-reBabel-on-Linux:
     runs-on: ubuntu-latest
     steps:
