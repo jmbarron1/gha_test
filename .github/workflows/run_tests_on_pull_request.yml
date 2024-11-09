@@ -43,7 +43,7 @@ jobs:
         run: npm run make
       - name: Build and upload artifact
         run: |
-          if [ "${matrix.os}" == "macos-latest" ]; then
+          if [ "${{matrix.os}}" == "macos-latest" ]; then
             actions/upload-artifact@v2 name: reBabel_mac_arm64 path: ${{ github.workspace }}/out/make/zip/darwin/arm64/rebabel*.zip
           else
             actions/upload-artifact@v2 name: reBabel_mac_x64 path: ${{ github.workspace }}/out/make/zip/darwin/x64/rebabel*.zip
