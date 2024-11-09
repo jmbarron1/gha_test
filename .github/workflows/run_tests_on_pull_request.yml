@@ -91,7 +91,7 @@ jobs:
   #         name: reBabel_windows
   #         path: ${{ github.workspace }}\out\make\squirrel.windows\x64\rebabel*.exe
   create-reBabel-release:
-    needs: [build-reBabel-on-Linux, build-reBabel-on-Windows, build-reBabel-on-Mac, increment-reBabel-version]
+    needs: [build-reBabel-on-Linux, increment-reBabel-version]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
