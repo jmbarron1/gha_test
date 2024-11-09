@@ -20,6 +20,7 @@ jobs:
       - name: Setup Git Credentials
         uses: fregante/setup-git-user@v2
       - id: step4
+        name: Store reBabel_version as Job Output
         run: |
           echo "reBabel_version=$(npm version prerelease --preid=alpha)" >> "$GITHUB_OUTPUT"
           git push && git push --tags
