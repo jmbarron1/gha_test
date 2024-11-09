@@ -21,7 +21,7 @@ jobs:
         uses: fregante/setup-git-user@v2
       - id: step4
         run: |
-          npm version prerelease --preid=alpha >> "$GITHUB_OUTPUT"
+          echo "$(npm version prerelease --preid=alpha)" >> "$GITHUB_OUTPUT"
           git status
           ls
           git push && git push --tags && rm -rf build/temp
