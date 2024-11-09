@@ -24,7 +24,10 @@ jobs:
           echo "reBabel_version=$(npm version prerelease --preid=alpha)" >> "$GITHUB_OUTPUT"
           git push && git push --tags
   build-reBabel-on-Mac:
-    runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, macos-13]
     steps:
       - uses: actions/checkout@master
         with:
@@ -38,13 +41,13 @@ jobs:
         run: .github/scripts/create_rebabel_convert_executable
       - name: Produce reBabel executable reBabel to GitHub releases
         run: npm run make
-      - name: List files
-        run: ls ./out/make/zip/darwin/arm64
-      - name: Upload reBabel Mac
-        uses: actions/upload-artifact@v4
-        with:
-          name: reBabel_mac
-          path: ${{ github.workspace }}/out/make/zip/darwin/arm64/rebabel*.zip
+      - name: Build and upload artifact
+        run: |
+          if [ "${matrix.os}" == "macos-latest" ]; then
+            actions/upload-artifact@v2 name: reBabel_mac_arm64 path: ${{ github.workspace }}/out/make/zip/darwin/arm64/rebabel*.zip
+          else
+            actions/upload-artifact@v2 name: reBabel_mac_x64 path: ${{ github.workspace }}/out/make/zip/darwin/x64/rebabel*.zip
+          fi
   build-reBabel-on-Linux:
     runs-on: ubuntu-latest
     steps:
@@ -60,7 +63,7 @@ jobs:
         run: .github/scripts/create_rebabel_convert_executable
       - name: Produce reBabel executable reBabel to GitHub releases
         run: npm run make
-      - name: Upload reBabel Linux
+      - name: Upload reBabel Linux Artifact
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_linux
@@ -81,7 +84,7 @@ jobs:
         run: .github/scripts/create_rebabel_convert_executable_windows.ps1
       - name: Create reBabel executable
         run: npm run make
-      - name: Upload reBabel Windows
+      - name: Upload reBabel Windows Artifact
         uses: actions/upload-artifact@v4
         with:
           name: reBabel_windows
@@ -96,15 +99,15 @@ jobs:
       - uses: actions/setup-node@master
         with:
           node-version: "latest"
-      - name: Download Mac artifact
+      - name: Download Mac Artifact
         uses: actions/download-artifact@v4
         with:
           name: reBabel_mac
-      - name: Download Linux artifact
+      - name: Download Linux Artifact
         uses: actions/download-artifact@v4
         with:
           name: reBabel_linux
-      - name: Download Windows artifact
+      - name: Download Windows Artifact
         uses: actions/download-artifact@v4
         with:
           name: reBabel_windows
